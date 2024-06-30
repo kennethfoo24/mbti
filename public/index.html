@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI Submission Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        (function(h,o,u,n,d) {
+          h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
+          d=o.createElement(u);d.async=1;d.src=n
+          n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
+        })(window,document,'script','https://www.datadoghq-browser-agent.com/us1/v5/datadog-rum.js','DD_RUM')
+        window.DD_RUM.onReady(function() {
+          window.DD_RUM.init({
+            clientToken: 'pub79e6690178fbd3e662b92f0ae371d2dd',
+            applicationId: 'd2e092a2-a1af-4629-aa02-3695881b2f78',
+            // `site` refers to the Datadog site parameter of your organization
+            // see https://docs.datadoghq.com/getting_started/site/
+            site: 'datadoghq.com',
+            service: 'mbti-cloudrun-nodejs',
+            env: 'mbti-cloudrun-nodejs',
+            // Specify a version number to identify the deployed version of your application in Datadog
+            version: '1.0.0', 
+            sessionSampleRate: 100,
+            sessionReplaySampleRate: 100,
+            trackUserInteractions: true,
+            trackResources: true,
+            trackLongTasks: true,
+            defaultPrivacyLevel: 'allow',
+          });  
+        })
+        window.DD_RUM.onReady(function() {
+            window.DD_RUM.setUser({
+                id: 'username'
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>MBTI Submission Form</h1>
+        <form action="/submit" method="post" id="mbtiForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <h2>Choose your MBTI type</h2>
+            
+            <div class="mbti-group">
+                <button type="button" onclick="selectOption('ESTJ')">ESTJ</button>
+                <button type="button" onclick="selectOption('ENFP')">ENFP</button>
+                <button type="button" onclick="selectOption('ISTJ')">ISTJ</button>
+                <button type="button" onclick="selectOption('INFJ')">INFJ</button>
+                <button type="button" onclick="selectOption('ESFJ')">ESFJ</button>
+                <button type="button" onclick="selectOption('ENTJ')">ENTJ</button>
+                <button type="button" onclick="selectOption('ISFJ')">ISFJ</button>
+                <button type="button" onclick="selectOption('INTJ')">INTJ</button>
+                <button type="button" onclick="selectOption('ESTP')">ESTP</button>
+                <button type="button" onclick="selectOption('ENFJ')">ENFJ</button>
+                <button type="button" onclick="selectOption('ISTP')">ISTP</button>
+                <button type="button" onclick="selectOption('INFP')">INFP</button>
+                <button type="button" onclick="selectOption('ESFP')">ESFP</button>
+                <button type="button" onclick="selectOption('ENTP')">ENTP</button>
+                <button type="button" onclick="selectOption('ISFP')">ISFP</button>
+                <button type="button" onclick="selectOption('INTP')">INTP</button>
+            </div>
+
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script>
+        function selectOption(mbtiType) {
+            fetch('/update-mbti', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mbtiType }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`MBTI type set to ${mbtiType}`);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
