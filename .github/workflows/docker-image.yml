@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_REPOSITORY: kennethfoo24 # name of Docker Hub ID
+      IMAGE_NAME: mbti
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18
+
+    - name: Build Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v4
+      with:
+        image: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}
+        registry: docker.io
+        tag: cloudrun
+        buildArgs: 'DD_GIT_REPOSITORY_URL=github.com/kennethfoo24/mbti,DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)'        
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
