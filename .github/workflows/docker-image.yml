@@ -13,15 +13,15 @@ jobs:
       DOCKER_REPOSITORY: kennethfoo24 # name of Docker Hub ID
       IMAGE_NAME: mbti
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
 
     - name: Build Docker Image
-      uses: mr-smithers-excellent/docker-build-push@v4
+      uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}
         registry: docker.io
