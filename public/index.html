@@ -100,21 +100,21 @@
 
     <script>
         document.getElementById('successBtn').addEventListener('click', () => {
-            fetch('http://localhost:3000/success')
+            fetch('/success')
                 .then(response => response.json())
                 .then(data => document.getElementById('response').innerText = JSON.stringify(data))
                 .catch(error => document.getElementById('response').innerText = error);
         });
 
         document.getElementById('badRequestBtn').addEventListener('click', () => {
-            fetch('http://localhost:3000/bad-request')
+            fetch('/bad-request')
                 .then(response => response.json())
                 .then(data => document.getElementById('response').innerText = JSON.stringify(data))
                 .catch(error => document.getElementById('response').innerText = error);
         });
 
         document.getElementById('serverErrorBtn').addEventListener('click', () => {
-            fetch('http://localhost:3000/server-error')
+            fetch('/server-error')
                 .then(response => response.json())
                 .then(data => document.getElementById('response').innerText = JSON.stringify(data))
                 .catch(error => document.getElementById('response').innerText = error);
