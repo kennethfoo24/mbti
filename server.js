@@ -16,6 +16,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+// Function to simulate errors with stack trace
+const simulateError = (message) => {
+  try {
+    throw new Error(message);
+  } catch (error) {
+    return error;
+  }
+};
+
 let userData = {
   username: '',
   mbtiType: ''
@@ -35,14 +44,16 @@ app.get('/success', (req, res) => {
 
 // Endpoint to simulate 400 Bad Request error
 app.get('/bad-request', (req, res) => {
-  logger.warn('Handling bad request');
-  res.status(400).json({ message: 'Bad Request' });
+  const error = simulateError('This is a mockup error message for a bad request. The request could not be understood by the server due to malformed syntax.');
+  logger.warn(`Handling bad request: ${error.message}`, { stack: error.stack });
+  res.status(400).json({ message: 'Bad Request', error: error.message });
 });
 
 // Endpoint to simulate 500 Internal Server Error
 app.get('/server-error', (req, res) => {
-  logger.error('Handling server error');
-  res.status(500).json({ message: 'Internal Server Error' });
+  const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
+  logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
+  res.status(500).json({ message: 'Internal Server Error', error: error.message });
 });
 
 app.post('/submit', (req, res) => {
