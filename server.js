@@ -39,6 +39,8 @@ app.get('/', (req, res) => {
 // Endpoint to simulate 200 OK response
 app.get('/success', (req, res) => {
   logger.info('Handling success request');
+  logger.info('Duplicate Message 2 Handling success request');
+  logger.info('Duplicate Message 3 Handling success request');
   res.status(200).json({ message: 'Success' });
 });
 
@@ -46,6 +48,8 @@ app.get('/success', (req, res) => {
 app.get('/bad-request', (req, res) => {
   const error = simulateError('This is a mockup error message for a bad request. The request could not be understood by the server due to malformed syntax.');
   logger.warn(`Handling bad request: ${error.message}`, { stack: error.stack });
+  logger.warn(`Duplicate Message 2 Handling bad request: ${error.message}`, { stack: error.stack });
+  logger.warn(`Duplicate Message 3 Handling bad request: ${error.message}`, { stack: error.stack });
   res.status(400).json({ message: 'Bad Request', error: error.message });
 });
 
@@ -53,6 +57,8 @@ app.get('/bad-request', (req, res) => {
 app.get('/server-error', (req, res) => {
   const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
   logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
+  logger.error(`Duplicate Message 2 Handling server error: ${error.message}`, { stack: error.stack });
+  logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
   res.status(500).json({ message: 'Internal Server Error', error: error.message });
 });
 
