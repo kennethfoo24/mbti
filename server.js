@@ -27,6 +27,18 @@ app.get('/', (req, res) => {
   logger.info('This is just an info log written in JSON.');
 });
 
+// Endpoint to simulate 400 Bad Request error
+app.get('/bad-request', (req, res) => {
+  logger.warn('Handling bad request');
+  res.status(400).json({ message: 'Bad Request' });
+});
+
+// Endpoint to simulate 500 Internal Server Error
+app.get('/server-error', (req, res) => {
+  logger.error('Handling server error');
+  res.status(500).json({ message: 'Internal Server Error' });
+});
+
 app.post('/submit', (req, res) => {
   const { username } = req.body;
   userData.username = username;
