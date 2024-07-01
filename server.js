@@ -27,6 +27,12 @@ app.get('/', (req, res) => {
   logger.info('This is just an info log written in JSON.');
 });
 
+// Endpoint to simulate 200 OK response
+app.get('/success', (req, res) => {
+  logger.info('Handling success request');
+  res.status(200).json({ message: 'Success' });
+});
+
 // Endpoint to simulate 400 Bad Request error
 app.get('/bad-request', (req, res) => {
   logger.warn('Handling bad request');
