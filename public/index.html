@@ -69,6 +69,15 @@
             <br><br>
             <input type="submit" value="Submit">
         </form>
+        <br><br>
+        <h2>Simulate Errors</h2>
+
+        <div class="simulate-errors"></div>
+            <button id="successBtn">Simulate 200 OK</button>
+            <button id="badRequestBtn">Simulate 400 Bad Request</button>
+            <button id="serverErrorBtn">Simulate 500 Internal Server Error</button>
+            <div id="response"></div>
+        </div>
     </div>
 
     <script>
@@ -87,6 +96,29 @@
                 }
             });
         }
+    </script>
+
+    <script>
+        document.getElementById('successBtn').addEventListener('click', () => {
+            fetch('http://localhost:3000/success')
+                .then(response => response.json())
+                .then(data => document.getElementById('response').innerText = JSON.stringify(data))
+                .catch(error => document.getElementById('response').innerText = error);
+        });
+
+        document.getElementById('badRequestBtn').addEventListener('click', () => {
+            fetch('http://localhost:3000/bad-request')
+                .then(response => response.json())
+                .then(data => document.getElementById('response').innerText = JSON.stringify(data))
+                .catch(error => document.getElementById('response').innerText = error);
+        });
+
+        document.getElementById('serverErrorBtn').addEventListener('click', () => {
+            fetch('http://localhost:3000/server-error')
+                .then(response => response.json())
+                .then(data => document.getElementById('response').innerText = JSON.stringify(data))
+                .catch(error => document.getElementById('response').innerText = error);
+        });
     </script>
 </body>
 </html>
