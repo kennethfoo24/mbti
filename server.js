@@ -60,21 +60,12 @@ app.get('/bad-request', wrapHandler('mbti-bad-request', (req, res) => {
 
 // Endpoint to simulate 500 Internal Server Error
 app.get('/server-error', wrapHandler('mbti-error', (req, res) => {
-  try {
-  span.setTag('error', e);
-  const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
+  throw new Error('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
   logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
   logger.error(`Duplicate Message 2 Handling server error: ${error.message}`, { stack: error.stack });
   logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
   res.status(500).json({ message: 'Internal Server Error', error: error.message });
-  } catch (e) {
-    span.setTag('error', e);
-    const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
-    logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
-    logger.error(`Duplicate Message 2 Handling server error: ${error.message}`, { stack: error.stack });
-    logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
-    res.status(500).json({ message: 'Internal Server Error', error: error.message });
-  }
+  span.setTag('error', e);
 }));
 
 app.post('/submit', wrapHandler('mbti-submit', (req, res) => {
