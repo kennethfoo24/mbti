@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const tracer = require('dd-trace').init();
 const app = express();
 const port = 3000;
 const { createLogger, format, transports } = require('winston');
