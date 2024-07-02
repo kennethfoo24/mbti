@@ -67,7 +67,12 @@ app.get('/server-error', wrapHandler('mbti-error', (req, res) => {
   logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
   res.status(500).json({ message: 'Internal Server Error', error: error.message });
   } catch (e) {
-    span.setTag('error', e)
+    span.setTag('error', e);
+    const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
+    logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
+    logger.error(`Duplicate Message 2 Handling server error: ${error.message}`, { stack: error.stack });
+    logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 }));
 
