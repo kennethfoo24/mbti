@@ -25,7 +25,22 @@ jobs:
       with:
         image: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}
         registry: docker.io
-        tags: latest3
+        tags: ${{ github.sha }}
         buildArgs: 'DD_GIT_REPOSITORY_URL=github.com/kennethfoo24/mbti,DD_GIT_COMMIT_SHA=$(git rev-parse HEAD)'        
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy kenneth-mbti-nodejs \
+          --image docker.io/kennethfoo24/mbti:${{ github.sha }} \
+          --region us-central1 \
+          --platform managed \
+          --allow-unauthenticated \
+          --port=3000
