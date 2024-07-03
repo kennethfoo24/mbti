@@ -58,6 +58,7 @@ app.get('/server-error', (req, res) => {
   const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.', 'InternalServerError');
   logger.error(`Handling server error: ${error.message}`, { kind: error.kind, stack: error.stack });
   res.status(500).json({ message: 'Internal Server Error', error: error.message });
+  span.setTag('error', e);
 });
 
 // Endpoint to simulate 500 Internal Server Error
