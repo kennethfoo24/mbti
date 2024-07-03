@@ -55,13 +55,20 @@ app.get('/bad-request', (req, res) => {
 
 // Endpoint to simulate 500 Internal Server Error
 app.get('/server-error', (req, res) => {
-  throw new Error('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
-  logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
-  logger.error(`Duplicate Message 2 Handling server error: ${error.message}`, { stack: error.stack });
-  logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
+  const error = simulateError('This is a mockup error message for an internal server error. An unexpected condition was encountered.', 'InternalServerError');
+  logger.error(`Handling server error: ${error.message}`, { kind: error.kind, stack: error.stack });
   res.status(500).json({ message: 'Internal Server Error', error: error.message });
-  span.setTag('error', e);
 });
+
+// Endpoint to simulate 500 Internal Server Error
+//app.get('/server-error', (req, res) => {
+//  throw new Error('This is a mockup error message for an internal server error. An unexpected condition was encountered.');
+//  logger.error(`Handling server error: ${error.message}`, { stack: error.stack });
+//  logger.error(`Duplicate Message 2 Handling server error: ${error.message}`, { stack: error.stack });
+//  logger.error(`Duplicate Message 3 Handling server error: ${error.message}`, { stack: error.stack });
+//  res.status(500).json({ message: 'Internal Server Error', error: error.message });
+//  span.setTag('error', e);
+//});
 
 app.post('/submit', (req, res) => {
   const { username } = req.body;
